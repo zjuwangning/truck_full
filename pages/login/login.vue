@@ -3,7 +3,7 @@
 		<view class="input-group">
 			<view class="input-row border">
 				<text class="title">账号：</text>
-				<m-input class="m-input" type="text" clearable focus v-model="account" placeholder="请输入账号"></m-input>
+				<m-input class="m-input" type="text" clearable focus v-model="username" placeholder="请输入账号"></m-input>
 			</view>
 			<view class="input-row">
 				<text class="title">密码：</text>
@@ -44,7 +44,7 @@
 			return {
 				providerList: [],
 				hasProvider: false,
-				account: '',
+				username: '',
 				password: '',
 				positionTop: 0,
 				isDevtools: false,
@@ -83,7 +83,7 @@
 				this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
 			},
 			bindLogin() {
-				if (this.account.length < 5) {
+				if (this.username.length < 5) {
 					uni.showToast({
 						icon: 'none',
 						title: '账号最短为 5 个字符'
@@ -98,7 +98,7 @@
 					return;
 				}
 				const data = {
-					account: this.account,
+					username: this.username,
 					password: this.password
 				};
 				
@@ -109,21 +109,13 @@
 					success: res => {
 						console.log('返回', res.data);
 						if (res.data.code === 0) {
-							service.addUser(data);
 							uni.showToast({
+								icon: 'none',
 								title: res.data['msg'],
-								duration: 2500,
-								complete: () => {
-									console.log('complete111')
-								}
+								duration: 2500
 							});
-							setTimeout(
-								() => {
-									uni.redirectTo({
-										url: '../login/login',
-									})
-								}, 2499
-							)
+							service.addUser(data);
+							this.toMain(this.username);
 						}
 						else {
 							uni.showToast({
@@ -134,15 +126,6 @@
 						}
 					}
 				})
-				
-				// if (validUser) {
-				// 	this.toMain(this.account);
-				// } else {
-				// 	uni.showToast({
-				// 		icon: 'none',
-				// 		title: '用户账号或密码不正确',
-				// 	});
-				// }
 			},
 			oauth(value) {
 				uni.login({

@@ -76,7 +76,6 @@
 					success: res => {
 						console.log('返回', res.data);
 						if (res.data.code === 0) {
-							service.addUser(data);
 							uni.showToast({
 								title: res.data['msg'],
 								duration: 2500,
