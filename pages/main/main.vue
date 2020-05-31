@@ -22,13 +22,12 @@
 </template>
 
 <script>
-	import {
-		mapState
-	} from 'vuex'
+	import {mapState} from 'vuex'
 
 	export default {
 		computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
 		onLoad() {
+			console.log('hasLogin', this.hasLogin);
 			if (!this.hasLogin) {
 				uni.showModal({
 					title: '未登录',

@@ -50,7 +50,7 @@
 				isDevtools: false,
 			}
 		},
-		computed: mapState(['forcedLogin']),
+		computed: mapState(['forcedLogin', 'hasLogin']),
 		methods: {
 			...mapMutations(['login']),
 			initProvider() {
@@ -71,6 +71,7 @@
 						}
 					},
 					fail: (err) => {
+						
 						console.error('获取服务供应商失败：' + JSON.stringify(err));
 					}
 				});
@@ -114,8 +115,11 @@
 								title: res.data['msg'],
 								duration: 2500
 							});
-							service.addUser(data);
-							this.toMain(this.username);
+							setTimeout(
+								() => {
+									this.toMain(res.data['data']['username']);
+								}, 2499
+							)
 						}
 						else {
 							uni.showToast({
@@ -164,6 +168,8 @@
 				}
 			},
 			toMain(userName) {
+				console.log('toMain', userName);
+				console.log('forcedLogin', this.forcedLogin);
 				this.login(userName);
 				/**
 				 * 强制登录时使用reLaunch方式跳转过来
