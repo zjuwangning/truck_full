@@ -113,12 +113,12 @@
 							uni.showToast({
 								icon: 'none',
 								title: res.data['msg'],
-								duration: 2500
+								duration: 1500
 							});
 							setTimeout(
 								() => {
 									this.toMain(res.data['data']['username']);
-								}, 2499
+								}, 1499
 							)
 						}
 						else {
